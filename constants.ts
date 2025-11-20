@@ -20,51 +20,51 @@ export const SIDEBAR_RECTANGLE_AD_CONFIG: AdConfig = {
   style: { display: 'block' }
 };
 
-// Mock Game Data (English)
+// Reliable HTML5 Games with Gradient Themes
 export const GAMES: Game[] = [
   {
-    id: 'snake',
-    title: 'Classic Snake',
-    description: 'Navigate the snake to eat apples and grow longer. Avoid hitting the walls or your own tail! A modern take on the timeless classic.',
-    embedUrl: 'https://patorjk.com/games/snake/',
-    thumbnail: 'https://picsum.photos/200/200?random=1',
-    category: 'Arcade',
-    isNew: false
-  },
-  {
-    id: 'sudoku',
-    title: 'Daily Sudoku',
-    description: 'Challenge your brain with classic logic puzzles. Features multiple difficulty levels. Play a quick game daily to keep your mind sharp!',
-    embedUrl: 'https://sudoku.com/embed',
-    thumbnail: 'https://picsum.photos/200/200?random=2',
+    id: 'hextris',
+    title: 'Hextris',
+    description: 'An addictive puzzle game inspired by Tetris. Rotate the hexagon to stack colored blocks. Don\'t let them stack outside the outer grey hexagon!',
+    embedUrl: 'https://hextris.io/',
+    gradient: 'from-amber-400 to-pink-600',
     category: 'Puzzle',
     isNew: true
   },
   {
-    id: 'tetris',
-    title: 'Tetris Master',
-    description: 'Stack blocks and clear lines! The speed increases as you level up. How long can you survive in this tribute to the block-stacking phenomenon?',
-    embedUrl: 'https://jstris.jezevec10.com/embed',
-    thumbnail: 'https://picsum.photos/200/200?random=3',
-    category: 'Arcade',
+    id: '2048',
+    title: '2048 Classic',
+    description: 'Join the numbers and get to the 2048 tile! Use your arrow keys to move tiles. When two tiles with the same number touch, they merge into one.',
+    embedUrl: 'https://play2048.co/',
+    gradient: 'from-yellow-400 to-orange-500',
+    category: 'Puzzle',
     isNew: false
   },
   {
-    id: '2048',
-    title: '2048 Puzzle',
-    description: 'Slide tiles to merge matching numbers. Can you reach the 2048 tile? An addictive mathematical logic game.',
-    embedUrl: 'https://2048game.com/embed',
-    thumbnail: 'https://picsum.photos/200/200?random=4',
-    category: 'Puzzle',
+    id: 'tower',
+    title: 'Tower Stack',
+    description: 'Test your reflexes! Stack the blocks as high as you can. Precision is key—any overhang will be sliced off, making the next block smaller.',
+    embedUrl: 'https://iamkun.github.io/tower_game/',
+    gradient: 'from-cyan-400 to-blue-600',
+    category: 'Arcade',
+    isNew: true
+  },
+  {
+    id: 'trex',
+    title: 'T-Rex Runner',
+    description: 'The legendary Chrome dinosaur game. Run as far as you can, jump over cacti, and dodge pterodactyls. Simple controls, infinite fun.',
+    embedUrl: 'https://wayou.github.io/t-rex-runner/',
+    gradient: 'from-slate-500 to-gray-800',
+    category: 'Arcade',
     isNew: false
   },
   {
     id: 'pacman',
     title: 'Pac-Man',
-    description: 'Eat all the dots while avoiding the ghosts! Don\'t forget to grab the power pellets to turn the tables on your pursuers.',
-    embedUrl: 'https://freepacman.org/',
-    thumbnail: 'https://picsum.photos/200/200?random=5',
-    category: 'Arcade',
+    description: 'The arcade classic. Navigate the maze, eat all the pellets, and avoid the ghosts. Grab the power pellets to turn the tables!',
+    embedUrl: 'https://pacman-e281c.firebaseapp.com/',
+    gradient: 'from-blue-600 to-indigo-700',
+    category: 'Retro',
     isNew: false
   }
 ];

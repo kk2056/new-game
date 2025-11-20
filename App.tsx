@@ -111,23 +111,28 @@ const App: React.FC = () => {
                       activeGame.id === game.id ? 'bg-slate-800/80 border-l-4 border-blue-500' : 'border-l-4 border-transparent'
                     }`}
                   >
-                    <div className="relative flex-shrink-0">
-                      <img 
-                        src={game.thumbnail} 
-                        alt={game.title} 
-                        className="w-20 h-14 object-cover rounded bg-slate-700 group-hover:opacity-90 transition-opacity"
-                      />
+                    {/* Replaced Image with CSS Gradient Icon */}
+                    <div className={`w-20 h-14 rounded-lg flex-shrink-0 flex items-center justify-center shadow-inner bg-gradient-to-br ${game.gradient} relative overflow-hidden group-hover:opacity-90 transition-opacity`}>
+                      {/* Gloss effect */}
+                      <div className="absolute top-0 left-0 w-full h-1/2 bg-white/10"></div>
+                      {/* Game Initial */}
+                      <span className="text-white font-black text-2xl drop-shadow-md select-none">
+                        {game.title.charAt(0)}
+                      </span>
+                      
                       {game.isNew && (
-                        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold shadow-sm">
-                          NEW
+                        <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
                         </span>
                       )}
                       {activeGame.id === game.id && (
-                         <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded">
+                         <div className="absolute inset-0 flex items-center justify-center bg-black/20 backdrop-blur-[1px] rounded-lg">
                             <div className="w-2 h-2 bg-white rounded-full animate-ping"></div>
                          </div>
                       )}
                     </div>
+                    
                     <div className="flex-grow min-w-0">
                       <h4 className={`font-medium truncate ${activeGame.id === game.id ? 'text-blue-400' : 'text-slate-200 group-hover:text-white'}`}>
                         {game.title}
@@ -136,6 +141,7 @@ const App: React.FC = () => {
                          <span className="text-[10px] uppercase tracking-wider px-1.5 py-0.5 bg-slate-950 text-slate-400 rounded border border-slate-800">
                            {game.category}
                          </span>
+                         {game.isNew && <span className="text-[10px] text-red-400 font-bold">NEW</span>}
                       </div>
                     </div>
                   </button>

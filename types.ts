@@ -5,7 +5,7 @@ export interface Game {
   title: string;
   description: string;
   embedUrl: string;
-  thumbnail: string;
+  gradient: string; // CSS gradient class (e.g., "from-blue-500 to-purple-500")
   category: string;
   isNew?: boolean;
 }
