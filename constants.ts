@@ -6,7 +6,7 @@ export const ADSENSE_CLIENT_ID = "ca-pub-9774042341049510";
 // Ad Slots
 export const TOP_BANNER_AD_CONFIG: AdConfig = {
   client: ADSENSE_CLIENT_ID,
-  slot: "1234567890", // 部署后请替换为真实的 AdSlot ID
+  slot: "1234567890", // Placeholder - Replace with real AdSense Slot ID before deployment
   format: AdFormat.AUTO,
   responsive: true,
   style: { display: 'block' }
@@ -14,18 +14,18 @@ export const TOP_BANNER_AD_CONFIG: AdConfig = {
 
 export const SIDEBAR_RECTANGLE_AD_CONFIG: AdConfig = {
   client: ADSENSE_CLIENT_ID,
-  slot: "1234567890", // 部署后请替换为真实的 AdSlot ID
+  slot: "1234567890", // Placeholder - Replace with real AdSense Slot ID before deployment
   format: AdFormat.RECTANGLE,
   responsive: true,
   style: { display: 'block' }
 };
 
-// 修复后的游戏列表：使用允许 iframe 嵌入的稳定源
+// Reliable HTML5 Games with Gradient Themes and SEO Descriptions
 export const GAMES: Game[] = [
   {
     id: 'hextris',
     title: 'Hextris',
-    description: 'An addictive puzzle game inspired by Tetris. Rotate the hexagon to stack colored blocks. Fast-paced and fun!',
+    description: 'Dive into the addictive world of Hextris, a top-tier free 2025 puzzle experience. This fast-paced hexagonal challenge requires strategy and speed. Enjoy instant play with no download required, making it the perfect unblocked html5 game for quick brain training sessions on any device.',
     embedUrl: 'https://hextris.github.io/hextris/', 
     gradient: 'from-amber-400 to-pink-600',
     category: 'Puzzle',
@@ -34,25 +34,25 @@ export const GAMES: Game[] = [
   {
     id: '2048-clean',
     title: '2048 Classic',
-    description: 'The most reliable version of 2048. Join the numbers and get to the 2048 tile! No ads, just pure gameplay.',
+    description: 'Experience the definitive version of 2048 Classic, optimized for modern browsers. This html5 logic puzzle offers unblocked access to endless fun. Simply join the numbers to reach the 2048 tile. It is free 2025 gaming at its finest—instant play with absolutely no download needed.',
     embedUrl: 'https://kielero.github.io/2048/', 
     gradient: 'from-yellow-400 to-orange-500',
     category: 'Puzzle',
     isNew: false
   },
   {
-    id: 'flappy',
-    title: 'Flappy Bird',
-    description: 'The legendary frustrating game. Tap to fly through the pipes. How high can you score?',
-    embedUrl: 'https://nebezb.com/floppybird/',
-    gradient: 'from-green-400 to-emerald-600',
+    id: 'tower',
+    title: 'Tower Stack',
+    description: 'Test your precision in Tower Stack, a vibrant html5 arcade game. Stack blocks as high as possible in this free 2025 hit. Perfect for testing reflexes, this unblocked title features instant play mechanics, ensuring you can jump right into the action with no download or installation.',
+    embedUrl: 'https://iamkun.github.io/tower_game/',
+    gradient: 'from-cyan-400 to-blue-600',
     category: 'Arcade',
     isNew: true
   },
   {
     id: 'dino-run',
-    title: 'Dino Runner',
-    description: 'The classic Chrome offline game. Run, jump over cacti, and dodge pterodactyls. Works perfectly online.',
+    title: 'T-Rex Runner',
+    description: 'Run wild with the legendary T-Rex Runner. This unblocked browser classic is now available for instant play. Jump over cacti and dodge pterodactyls in this timeless html5 adventure. Enjoy the best free 2025 endless runner experience with no download required.',
     embedUrl: 'https://offline-dino-game.firebaseapp.com/',
     gradient: 'from-slate-500 to-gray-800',
     category: 'Arcade',
@@ -61,10 +61,20 @@ export const GAMES: Game[] = [
   {
     id: 'pacman',
     title: 'Pac-Man',
-    description: 'Navigate the maze, eat pellets, and avoid ghosts. A timeless retro classic that never gets old.',
+    description: 'Relive the retro magic with Pac-Man, the ultimate arcade masterpiece. This fully unblocked html5 version delivers the authentic ghost-chasing thrill. It is a free 2025 essential for nostalgic gamers, offering instant play directly in your browser with no download.',
     embedUrl: 'https://pacman-e281c.firebaseapp.com/',
     gradient: 'from-blue-600 to-indigo-700',
     category: 'Retro',
     isNew: false
+  },
+  {
+    id: 'monster-survivors',
+    title: 'Monster Survivors',
+    description: 'Battle endless hordes in Monster Survivors, the intense new action roguelike of the year. This free 2025 gem features cutting-edge html5 performance. Survive as long as you can in this unblocked arena shooter. Click for instant play and face the swarm with no download necessary.',
+    // Using a reliable open source space shooter as a placeholder for "Monster Survivors" to ensure stability
+    embedUrl: 'https://startguard.github.io/Space-Invaders/',
+    gradient: 'from-purple-600 to-red-600',
+    category: 'Action',
+    isNew: true
   }
 ];
