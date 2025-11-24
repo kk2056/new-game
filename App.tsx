@@ -160,9 +160,18 @@ const App: React.FC = () => {
 
       {/* Footer */}
       <footer className="bg-slate-900 border-t border-slate-800 py-8 mt-auto">
-        <div className="container mx-auto px-4">
-            <div className="flex flex-col md:flex-row justify-center items-center gap-4 text-sm text-slate-500">
-              <p>&copy; {new Date().getFullYear()} ArcadeZone. All rights reserved.</p>
+        <div className="container mx-auto px-4 text-center">
+            <div className="flex flex-col items-center gap-4">
+              <div className="flex flex-wrap justify-center gap-4 text-sm font-medium">
+                 <a href="/" className="text-slate-400 hover:text-purple-400 transition-colors">Home</a>
+                 <span className="text-slate-700">|</span>
+                 <a href="/privacy.html" className="text-slate-400 hover:text-purple-400 transition-colors">Privacy Policy</a>
+                 <span className="text-slate-700">|</span>
+                 <a href="/about.html" className="text-slate-400 hover:text-purple-400 transition-colors">About Us</a>
+                 <span className="text-slate-700">|</span>
+                 <a href="/contact.html" className="text-slate-400 hover:text-purple-400 transition-colors">Contact</a>
+              </div>
+              <p className="text-slate-600 text-xs">&copy; {new Date().getFullYear()} Pro Max Games. All rights reserved.</p>
             </div>
         </div>
       </footer>
