@@ -1,12 +1,26 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { GAMES, TOP_BANNER_AD_CONFIG, SIDEBAR_RECTANGLE_AD_CONFIG } from './constants';
 import { GameFrame } from './components/GameFrame';
 import { AdSenseUnit } from './components/AdSenseUnit';
 import { Game } from './types';
+import { Menu, X, Gamepad2 } from 'lucide-react';
 
 const App: React.FC = () => {
   const [activeGame, setActiveGame] = useState<Game>(GAMES[0]);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // 1. AdSense Dynamic Injection (Anti-Blocking)
+  useEffect(() => {
+    const existingScript = document.querySelector('script[src*="adsbygoogle"]');
+    if (!existingScript) {
+      const script = document.createElement('script');
+      script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9774042341049510";
+      script.async = true;
+      script.crossOrigin = "anonymous";
+      document.body.appendChild(script);
+    }
+  }, []);
 
   // Extract unique categories
   const categories = useMemo(() => {
@@ -28,15 +42,14 @@ const App: React.FC = () => {
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => setActiveGame(GAMES[0])}>
             <div className="bg-gradient-to-br from-blue-600 to-indigo-600 p-2 rounded-lg shadow-lg shadow-blue-900/20">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+              <Gamepad2 className="w-6 h-6 text-white" />
             </div>
             <h1 className="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400 tracking-tight">
               ArcadeZone
             </h1>
           </div>
+
+          {/* Desktop Nav */}
           <nav className="hidden md:flex gap-6 text-sm font-medium text-slate-400">
             {categories.slice(0, 4).map(cat => (
               <button 
@@ -48,7 +61,32 @@ const App: React.FC = () => {
               </button>
             ))}
           </nav>
+
+          {/* Mobile Menu Toggle */}
+          <button 
+            className="md:hidden p-2 text-slate-400"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X /> : <Menu />}
+          </button>
         </div>
+
+        {/* Mobile Nav Dropdown */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden bg-slate-900 border-b border-slate-800 p-4 animate-in slide-in-from-top-2">
+             <div className="flex flex-col gap-4">
+                {categories.map(cat => (
+                  <button 
+                    key={cat}
+                    onClick={() => { setSelectedCategory(cat); setIsMobileMenuOpen(false); }}
+                    className={`text-left px-4 py-2 rounded ${selectedCategory === cat ? 'bg-slate-800 text-white' : 'text-slate-400'}`}
+                  >
+                    {cat === 'All' ? 'Featured Games' : cat}
+                  </button>
+                ))}
+             </div>
+          </div>
+        )}
       </header>
 
       <main className="flex-grow container mx-auto px-4 py-6">
@@ -64,8 +102,6 @@ const App: React.FC = () => {
           
           {/* Main Game Area */}
           <div className="lg:col-span-8 flex flex-col gap-6">
-            {/* We use 'key' here to force a remount of GameFrame when the game changes. 
-                This ensures the loading state resets and the iframe reloads cleanly. */}
             <GameFrame key={activeGame.id} game={activeGame} />
           </div>
 
@@ -83,17 +119,6 @@ const App: React.FC = () => {
             <div className="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden shadow-lg flex flex-col max-h-[calc(100vh-400px)]">
               <div className="p-4 border-b border-slate-800 bg-slate-800/50 flex justify-between items-center sticky top-0 z-10 backdrop-blur-sm">
                 <h3 className="font-bold text-white">More Games</h3>
-                
-                {/* Mobile Category Filter (Simple) */}
-                <select 
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="bg-slate-950 text-xs text-slate-300 border border-slate-700 rounded px-2 py-1 outline-none focus:border-blue-500"
-                >
-                  {categories.map(cat => (
-                    <option key={cat} value={cat}>{cat}</option>
-                  ))}
-                </select>
               </div>
 
               <div className="divide-y divide-slate-800 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
@@ -102,7 +127,6 @@ const App: React.FC = () => {
                     key={game.id}
                     onClick={() => {
                       setActiveGame(game);
-                      // Scroll to top on mobile
                       if (window.innerWidth < 1024) {
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                       }
@@ -111,46 +135,30 @@ const App: React.FC = () => {
                       activeGame.id === game.id ? 'bg-slate-800/80 border-l-4 border-blue-500' : 'border-l-4 border-transparent'
                     }`}
                   >
-                    {/* Replaced Image with CSS Gradient Icon */}
-                    <div className={`w-20 h-14 rounded-lg flex-shrink-0 flex items-center justify-center shadow-inner bg-gradient-to-br ${game.gradient} relative overflow-hidden group-hover:opacity-90 transition-opacity`}>
-                      {/* Gloss effect */}
-                      <div className="absolute top-0 left-0 w-full h-1/2 bg-white/10"></div>
-                      {/* Game Initial */}
-                      <span className="text-white font-black text-2xl drop-shadow-md select-none">
+                    <div className={`w-16 h-12 rounded-lg flex-shrink-0 flex items-center justify-center shadow-inner bg-gradient-to-br ${game.gradient} relative overflow-hidden group-hover:opacity-90 transition-opacity`}>
+                      <span className="text-white font-black text-xl drop-shadow-md select-none">
                         {game.title.charAt(0)}
                       </span>
-                      
                       {game.isNew && (
-                        <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                        <span className="absolute -top-1 -right-1 flex h-2 w-2">
                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
                         </span>
-                      )}
-                      {activeGame.id === game.id && (
-                         <div className="absolute inset-0 flex items-center justify-center bg-black/20 backdrop-blur-[1px] rounded-lg">
-                            <div className="w-2 h-2 bg-white rounded-full animate-ping"></div>
-                         </div>
                       )}
                     </div>
                     
                     <div className="flex-grow min-w-0">
-                      <h4 className={`font-medium truncate ${activeGame.id === game.id ? 'text-blue-400' : 'text-slate-200 group-hover:text-white'}`}>
+                      <h4 className={`font-medium text-sm truncate ${activeGame.id === game.id ? 'text-blue-400' : 'text-slate-200 group-hover:text-white'}`}>
                         {game.title}
                       </h4>
-                      <div className="flex items-center gap-2 mt-1">
+                      <div className="flex items-center gap-2 mt-0.5">
                          <span className="text-[10px] uppercase tracking-wider px-1.5 py-0.5 bg-slate-950 text-slate-400 rounded border border-slate-800">
                            {game.category}
                          </span>
-                         {game.isNew && <span className="text-[10px] text-red-400 font-bold">NEW</span>}
                       </div>
                     </div>
                   </button>
                 ))}
-                {filteredGames.length === 0 && (
-                   <div className="p-8 text-center text-slate-500 text-sm">
-                     No games found in this category.
-                   </div>
-                )}
               </div>
             </div>
 

@@ -5,35 +5,36 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <!-- SEO Meta Tags (English Optimized) -->
+    <!-- SEO Meta Tags -->
     <title>ArcadeZone - Play Free Online Games (Snake, Tetris, Sudoku)</title>
     <meta name="description" content="Play the best free HTML5 games online at ArcadeZone. No downloads required! Enjoy classics like Snake, Tetris, Sudoku, 2048, and Pac-Man on desktop or mobile." />
     <meta name="keywords" content="online games, free games, html5 games, snake game, tetris, sudoku, puzzle games, arcade games, browser games" />
     
-    <!-- Tailwind CSS (CDN) -->
+    <!-- Tailwind CSS (Loaded via script for simplicity in this setup, usually done in CSS) -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google AdSense Main Script -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9774042341049510" crossorigin="anonymous"></script>
     <style>
-      /* Enforcing the requested Deep Blue to Violet Gradient */
       body {
         background: linear-gradient(135deg, #0f051d 0%, #1a0033 100%) !important;
+        margin: 0;
+        min-height: 100vh;
       }
     </style>
   <script type="importmap">
 {
   "imports": {
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.6",
     "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "vite": "https://aistudiocdn.com/vite@^7.2.4",
-    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1"
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "vite": "https://aistudiocdn.com/vite@^7.2.4"
   }
 }
 </script>
 </head>
-  <body class="text-white antialiased min-h-screen">
+  <body class="text-white antialiased">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>
