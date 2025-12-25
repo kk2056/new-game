@@ -6,7 +6,7 @@ export const ADSENSE_CLIENT_ID = "ca-pub-9774042341049510";
 // Ad Slots
 export const TOP_BANNER_AD_CONFIG: AdConfig = {
   client: ADSENSE_CLIENT_ID,
-  slot: "1234567890", // Placeholder - Replace with real AdSense Slot ID before deployment
+  slot: "1234567890", 
   format: AdFormat.AUTO,
   responsive: true,
   style: { display: 'block' }
@@ -14,8 +14,24 @@ export const TOP_BANNER_AD_CONFIG: AdConfig = {
 
 export const SIDEBAR_RECTANGLE_AD_CONFIG: AdConfig = {
   client: ADSENSE_CLIENT_ID,
-  slot: "1234567890", // Placeholder - Replace with real AdSense Slot ID before deployment
+  slot: "1234567891", 
   format: AdFormat.RECTANGLE,
+  responsive: true,
+  style: { display: 'block' }
+};
+
+export const MID_CONTENT_AD_CONFIG: AdConfig = {
+  client: ADSENSE_CLIENT_ID,
+  slot: "1234567892",
+  format: AdFormat.AUTO,
+  responsive: true,
+  style: { display: 'block', minHeight: '100px' }
+};
+
+export const BOTTOM_LINKS_AD_CONFIG: AdConfig = {
+  client: ADSENSE_CLIENT_ID,
+  slot: "1234567893",
+  format: AdFormat.FLUID,
   responsive: true,
   style: { display: 'block' }
 };
@@ -71,7 +87,6 @@ export const GAMES: Game[] = [
     id: 'monster-survivors',
     title: 'Monster Survivors',
     description: 'Battle endless hordes in Monster Survivors, the intense new action roguelike of the year. This free 2025 gem features cutting-edge html5 performance. Survive as long as you can in this unblocked arena shooter. Click for instant play and face the swarm with no download necessary.',
-    // Using a reliable open source space shooter as a placeholder for "Monster Survivors" to ensure stability
     embedUrl: 'https://startguard.github.io/Space-Invaders/',
     gradient: 'from-purple-600 to-red-600',
     category: 'Action',
