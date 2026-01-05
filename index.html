@@ -10,33 +10,48 @@
     <meta name="description" content="Play the best free HTML5 games online at ArcadeZone. No downloads required! Enjoy classics like Snake, Tetris, Sudoku, 2048, and Pac-Man on desktop or mobile." />
     <meta name="keywords" content="online games, free games, html5 games, snake game, tetris, sudoku, puzzle games, arcade games, browser games" />
     
-    <!-- Tailwind CSS (Loaded via script for simplicity in this setup, usually done in CSS) -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <style>
       body {
-        background: linear-gradient(135deg, #0f051d 0%, #1a0033 100%) !important;
+        background: radial-gradient(circle at top center, #1e0b36 0%, #0f051d 100%) !important;
         margin: 0;
         min-height: 100vh;
+        color: #e2e8f0;
+      }
+      /* Custom Scrollbar for better aesthetics */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #0f051d;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #334155;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #475569;
       }
     </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.6",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
-    "vite": "https://aistudiocdn.com/vite@^7.2.4"
-  }
-}
-</script>
-</head>
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9774042341049510"
-     crossorigin="anonymous"></script>
-     
+    <script type="importmap">
+    {
+      "imports": {
+        "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.6",
+        "react/": "https://aistudiocdn.com/react@^19.2.0/",
+        "react": "https://aistudiocdn.com/react@^19.2.0",
+        "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1",
+        "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+        "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+        "vite": "https://aistudiocdn.com/vite@^7.2.4"
+      }
+    }
+    </script>
+    <!-- Google AdSense - Top Level Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9774042341049510" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div id="root"></div>
   </body>
 </html>

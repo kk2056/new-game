@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   GAMES, 
   TOP_BANNER_AD_CONFIG, 
@@ -9,24 +9,12 @@ import {
 import { GameFrame } from './components/GameFrame';
 import { AdSenseUnit } from './components/AdSenseUnit';
 import { Game } from './types';
-import { Menu, X, Gamepad2, Info, Star, ShieldCheck, Zap } from 'lucide-react';
+import { Menu, X, Gamepad2, Info, Star, ShieldCheck, Zap, TrendingUp } from 'lucide-react';
 
 const App: React.FC = () => {
   const [activeGame, setActiveGame] = useState<Game>(GAMES[0]);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  // 1. AdSense Dynamic Injection (Anti-Blocking)
-  useEffect(() => {
-    const existingScript = document.querySelector('script[src*="adsbygoogle"]');
-    if (!existingScript) {
-      const script = document.createElement('script');
-      script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9774042341049510";
-      script.async = true;
-      script.crossOrigin = "anonymous";
-      document.body.appendChild(script);
-    }
-  }, []);
 
   const categories = useMemo(() => {
     const cats = new Set(GAMES.map(g => g.category));
@@ -39,181 +27,208 @@ const App: React.FC = () => {
   }, [selectedCategory]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-200 font-sans">
+    <div className="min-h-screen flex flex-col bg-[#0f051d] text-slate-200 font-sans selection:bg-indigo-500 selection:text-white">
       
       {/* Header */}
-      <header className="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => setActiveGame(GAMES[0])}>
-            <div className="bg-gradient-to-br from-blue-600 to-indigo-600 p-2 rounded-lg shadow-lg shadow-blue-900/20">
+      <header className="bg-slate-900/80 backdrop-blur-lg border-b border-white/5 sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setActiveGame(GAMES[0])}>
+            <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-2 rounded-xl shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform">
               <Gamepad2 className="w-6 h-6 text-white" />
             </div>
-            <h1 className="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400 tracking-tight">
-              ArcadeZone
-            </h1>
+            <div className="flex flex-col -space-y-1">
+              <h1 className="text-xl md:text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-white via-indigo-200 to-purple-200 tracking-tighter italic">
+                ARCADE ZONE
+              </h1>
+              <span className="text-[10px] text-indigo-400 font-bold tracking-[0.2em] uppercase">ProMax Unblocked</span>
+            </div>
           </div>
 
-          <nav className="hidden md:flex gap-6 text-sm font-medium text-slate-400">
-            {categories.slice(0, 4).map(cat => (
+          <nav className="hidden lg:flex gap-8 text-sm font-semibold text-slate-400">
+            {categories.map(cat => (
               <button 
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`transition-colors ${selectedCategory === cat ? 'text-white font-bold scale-105' : 'hover:text-white'}`}
+                className={`transition-all relative py-1 ${
+                  selectedCategory === cat 
+                  ? 'text-white' 
+                  : 'hover:text-white'
+                }`}
               >
                 {cat === 'All' ? 'Featured' : cat}
+                {selectedCategory === cat && (
+                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-indigo-500 rounded-full"></span>
+                )}
               </button>
             ))}
           </nav>
 
-          <button 
-            className="md:hidden p-2 text-slate-400"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X /> : <Menu />}
-          </button>
+          <div className="flex items-center gap-4">
+            <button 
+              className="lg:hidden p-2 text-slate-400 hover:text-white transition-colors"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? <X /> : <Menu />}
+            </button>
+          </div>
         </div>
 
         {isMobileMenuOpen && (
-          <div className="md:hidden bg-slate-900 border-b border-slate-800 p-4 animate-in slide-in-from-top-2">
-             <div className="flex flex-col gap-4">
-                {categories.map(cat => (
-                  <button 
-                    key={cat}
-                    onClick={() => { setSelectedCategory(cat); setIsMobileMenuOpen(false); }}
-                    className={`text-left px-4 py-2 rounded ${selectedCategory === cat ? 'bg-slate-800 text-white' : 'text-slate-400'}`}
-                  >
-                    {cat === 'All' ? 'Featured Games' : cat}
-                  </button>
-                ))}
-             </div>
+          <div className="lg:hidden bg-slate-900 border-b border-white/5 p-4 space-y-2 animate-in slide-in-from-top-4 duration-300">
+             {categories.map(cat => (
+                <button 
+                  key={cat}
+                  onClick={() => { setSelectedCategory(cat); setIsMobileMenuOpen(false); }}
+                  className={`w-full text-left px-4 py-3 rounded-xl transition-colors font-medium ${
+                    selectedCategory === cat ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800'
+                  }`}
+                >
+                  {cat === 'All' ? '🔥 Featured Games' : cat}
+                </button>
+             ))}
           </div>
         )}
       </header>
 
-      <main className="flex-grow container mx-auto px-4 py-6">
+      <main className="flex-grow container mx-auto px-4 py-8">
         
-        {/* Top Ad Unit */}
-        <div className="mb-8 w-full flex justify-center">
-          <div className="w-full max-w-[728px] min-h-[90px]">
-             <AdSenseUnit config={TOP_BANNER_AD_CONFIG} className="min-h-[90px]" label="Top Banner Ad" />
+        {/* Top Ad Unit - Maximum Visibility */}
+        <div className="mb-10 w-full flex flex-col items-center">
+          <div className="w-full max-w-[970px] min-h-[90px] shadow-2xl shadow-indigo-900/10 rounded-xl overflow-hidden">
+             <AdSenseUnit config={TOP_BANNER_AD_CONFIG} className="min-h-[90px]" label="Leaderboard Ad" />
           </div>
+          <p className="text-[10px] text-slate-600 mt-2 uppercase tracking-widest font-bold">Advertisement</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           
           {/* Main Content Area */}
-          <div className="lg:col-span-8 flex flex-col gap-6">
+          <div className="lg:col-span-8 flex flex-col gap-10">
             
             {/* Game Player Section */}
-            <GameFrame key={activeGame.id} game={activeGame} />
-
-            {/* 300+ Words SEO Content Block */}
-            <div className="bg-slate-900/50 p-8 rounded-xl border border-slate-800 shadow-xl leading-relaxed">
-              <div className="flex items-center gap-2 mb-4 text-blue-400">
-                <Info className="w-5 h-5" />
-                <h2 className="text-xl font-bold text-white">Why Play Unblocked Games 2025 at ArcadeZone?</h2>
-              </div>
-              <div className="text-slate-300 space-y-4">
-                <p>
-                  Welcome to the definitive portal for <strong>unblocked games 2025</strong>. If you are browsing from a <strong>school chromebook</strong> and need a <strong>no download</strong> solution for your gaming needs, you have come to the right place. In 2025, web gaming has reached a professional peak, with HTML5 technology allowing for near-console quality experiences directly in your browser.
-                </p>
-                <p>
-                  Our platform is specifically optimized for <strong>school chromebook</strong> users who often face restrictive filters and hardware limitations. We ensure that every title in our library—from the geometric complexity of Hextris to the logic-driven thrills of 2048—is fully <strong>unblocked</strong> and requires absolutely <strong>no download</strong>. This keeps your system lightweight and secure while providing instant entertainment during breaks.
-                </p>
-                <p>
-                  The "ProMax" experience at ArcadeZone means we don't just host games; we curate the highest-performing versions available. Whether it's the 60FPS fluidity of T-Rex Runner or the classic nostalgic joy of Pac-Man, our servers are tuned for 2025 connectivity standards. Say goodbye to lag and intrusive pop-ups. We prioritize your gameplay experience, offering full-screen modes and responsive controls that turn any standard browser into a high-performance gaming station.
-                </p>
-              </div>
-            </div>
+            <section className="relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl blur opacity-20 group-hover:opacity-30 transition-opacity"></div>
+              <GameFrame key={activeGame.id} game={activeGame} />
+            </section>
 
             {/* Ad Unit: Mid Content */}
-            <div className="w-full flex justify-center my-4">
-               <div className="w-full max-w-[728px] min-h-[100px]">
-                 <AdSenseUnit config={MID_CONTENT_AD_CONFIG} className="min-h-[100px]" label="Content Middle Ad" />
+            <div className="w-full flex flex-col items-center">
+               <div className="w-full max-w-[728px] min-h-[100px] rounded-xl overflow-hidden bg-slate-900/30">
+                 <AdSenseUnit config={MID_CONTENT_AD_CONFIG} className="min-h-[100px]" label="Sponsored Content" />
                </div>
+               <p className="text-[10px] text-slate-600 mt-2 uppercase tracking-widest font-bold">Recommended for You</p>
             </div>
 
             {/* Strategy Guide Block */}
-            <div className="strategy mt-4 text-slate-300 p-6 bg-slate-800/80 rounded-lg border-l-4 border-blue-500 shadow-lg">
-                <div className="flex items-center gap-2 mb-3">
-                  <Zap className="w-5 h-5 text-yellow-400" />
-                  <h3 className="text-lg font-bold text-white">ProMax Performance Strategy Guide</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-slate-900/40 p-8 rounded-2xl border border-white/5 shadow-2xl backdrop-blur-sm">
+                <div className="flex items-center gap-3 mb-6 text-blue-400">
+                  <TrendingUp className="w-6 h-6" />
+                  <h2 className="text-xl font-bold text-white">Why Play with Us?</h2>
                 </div>
-                <p className="mb-4">
-                  ProMax Games Unblocked 2025 represents the gold standard in web gaming graphics and performance. Leveraging WebGL and WebAssembly technology, we provide 3D gaming experiences that rival native applications. If you have a newer Chromebook or PC, this site will push your hardware to its potential. It’s not just about visuals; the controls and physics engines here are "ProMax" level.
+                <div className="text-slate-400 space-y-4 text-sm leading-relaxed">
+                  <p>
+                    Experience <strong>unblocked games 2025</strong> with the lowest latency. Our platform uses advanced edge caching to ensure your <strong>school chromebook</strong> gaming session is smooth and lag-free.
+                  </p>
+                  <p>
+                    No account registration, no downloads, and 100% free. We specialize in "ProMax" performance versions of your favorite classics.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-slate-900/40 p-8 rounded-2xl border border-white/5 shadow-2xl backdrop-blur-sm">
+                <div className="flex items-center gap-3 mb-6 text-yellow-400">
+                  <Zap className="w-6 h-6" />
+                  <h2 className="text-xl font-bold text-white">Pro Strategy Tip</h2>
+                </div>
+                <div className="text-slate-400 space-y-4 text-sm leading-relaxed">
+                  <p>
+                    Always enable <strong>Fullscreen Mode</strong> for the most immersive experience. Our "ProMax" games are optimized for 1080p and 4K displays.
+                  </p>
+                  <p>
+                    Use keyboard shortcuts (Arrow keys, Space) for precise movement in arcade and puzzle titles.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* SEO Content Block */}
+            <div className="bg-slate-900/60 p-10 rounded-3xl border border-white/5 shadow-inner">
+              <div className="flex items-center gap-3 mb-6 text-indigo-400">
+                <Info className="w-6 h-6" />
+                <h2 className="text-2xl font-black text-white tracking-tight">THE 2025 UNBLOCKED GAMING REVOLUTION</h2>
+              </div>
+              <div className="text-slate-300 space-y-6 text-lg leading-relaxed">
+                <p>
+                  Welcome to the ultimate destination for <strong>unblocked games 2025</strong>. We understand the struggle of trying to find high-quality entertainment on managed devices like a <strong>school chromebook</strong>. That's why we built ArcadeZone—a high-performance hub for games that requires <strong>no download</strong> and bypasses common network restrictions effortlessly.
                 </p>
                 <p>
-                  Performance Guide: The racing and shooting games here feature detailed lighting and textures. While they require slightly better hardware, our optimized code ensures a steady 60FPS even on mid-range devices. For players seeking the ultimate experience, this is your stage. Say goodbye to pixelated graphics and enjoy console-quality visuals right in your browser.
+                  Our library is hand-picked for maximum compatibility and fun. Whether you're mastering the geometry of <em>Hextris</em>, reaching the 2048 tile in <em>2048 Classic</em>, or surviving the endless hordes of <em>Monster Survivors</em>, you're playing the most optimized versions available on the web today.
                 </p>
+                <p>
+                  In 2025, web gaming is about speed and accessibility. We leverage modern browser capabilities to deliver console-grade physics and visuals without the bloat of traditional gaming sites. No ads that break your game, just pure, unadulterated "ProMax" gaming.
+                </p>
+              </div>
             </div>
 
             {/* Internal Linking Block */}
-            <div className="other-games mt-8 bg-slate-900 p-6 rounded-lg shadow-2xl border border-slate-700">
-                <h3 className="text-xl font-bold text-white mb-6 border-b border-slate-600 pb-2 flex items-center gap-2">
-                  <Star className="w-5 h-5 text-purple-400" />
-                  More Unblocked Games 2025 Network
+            <div className="bg-gradient-to-br from-indigo-900/20 to-transparent p-8 rounded-3xl border border-indigo-500/10 shadow-2xl">
+                <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3">
+                  <Star className="w-6 h-6 text-yellow-500 fill-yellow-500" />
+                  Explore the ProMax Network
                 </h3>
-                <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 list-none">
-                    <li><a href="https://snakegame.cfd" className="text-blue-400 hover:text-blue-300 flex items-center gap-2 transition-all hover:translate-x-1"><span>•</span> Play Snake Game Unblocked 2025</a></li>
-                    <li><a href="https://playzero2025.sbs" className="text-blue-400 hover:text-blue-300 flex items-center gap-2 transition-all hover:translate-x-1"><span>•</span> Play Zero Lag Games Unblocked 2025</a></li>
-                    <li><a href="https://freegames2025.sbs" className="text-blue-400 hover:text-blue-300 flex items-center gap-2 transition-all hover:translate-x-1"><span>•</span> Play Free Games Unblocked 2025</a></li>
-                    <li><a href="https://nodownload2025.online" className="text-blue-400 hover:text-blue-300 flex items-center gap-2 transition-all hover:translate-x-1"><span>•</span> Play No Download Games Unblocked 2025</a></li>
-                    <li><a href="https://unblocked2025.cfd" className="text-blue-400 hover:text-blue-300 flex items-center gap-2 transition-all hover:translate-x-1"><span>•</span> Play Unblocked Games 2025 (Main)</a></li>
-                    <li><a href="https://unblocked2025.sbs" className="text-blue-400 hover:text-blue-300 flex items-center gap-2 transition-all hover:translate-x-1"><span>•</span> Play Best Unblocked Games 2025</a></li>
-                    <li><a href="https://promax.it.com" className="text-blue-400 hover:text-blue-300 flex items-center gap-2 transition-all hover:translate-x-1"><span>•</span> Play ProMax Games Unblocked 2025</a></li>
-                    <li><a href="https://retrobowl2025.online" className="text-blue-400 hover:text-blue-300 flex items-center gap-2 transition-all hover:translate-x-1"><span>•</span> Play Retro Bowl Unblocked 2025</a></li>
-                    <li><a href="https://1v1lol2025.online" className="text-blue-400 hover:text-blue-300 flex items-center gap-2 transition-all hover:translate-x-1"><span>•</span> Play 1v1.LOL Unblocked 2025</a></li>
-                    <li><a href="https://drift2025.site" className="text-blue-400 hover:text-blue-300 flex items-center gap-2 transition-all hover:translate-x-1"><span>•</span> Play Drift Hunters Unblocked 2025</a></li>
-                    <li><a href="https://slope2025.online" className="text-blue-400 hover:text-blue-300 flex items-center gap-2 transition-all hover:translate-x-1"><span>•</span> Play Slope Game Unblocked 2025</a></li>
-                    <li><a href="https://gd2025.site" className="text-blue-400 hover:text-blue-300 flex items-center gap-2 transition-all hover:translate-x-1"><span>•</span> Play Geometry Dash Unblocked 2025</a></li>
-                    <li><a href="https://motox3m2025.online" className="text-blue-400 hover:text-blue-300 flex items-center gap-2 transition-all hover:translate-x-1"><span>•</span> Play Moto X3M Unblocked 2025</a></li>
-                    <li><a href="https://surfers2025.site" className="text-blue-400 hover:text-blue-300 flex items-center gap-2 transition-all hover:translate-x-1"><span>•</span> Play Subway Surfers Unblocked 2025</a></li>
-                    <li><a href="https://run32025.online" className="text-blue-400 hover:text-blue-300 flex items-center gap-2 transition-all hover:translate-x-1"><span>•</span> Play Run 3 Unblocked 2025</a></li>
-                    <li><a href="https://fireboy2025.site" className="text-blue-400 hover:text-blue-300 flex items-center gap-2 transition-all hover:translate-x-1"><span>•</span> Play Fireboy & Watergirl Unblocked 2025</a></li>
-                    <li><a href="https://paperio2025.online" className="text-blue-400 hover:text-blue-300 flex items-center gap-2 transition-all hover:translate-x-1"><span>•</span> Play Paper.io Unblocked 2025</a></li>
-                    <li><a href="https://driftbest2025.site" className="text-blue-400 hover:text-blue-300 flex items-center gap-2 transition-all hover:translate-x-1"><span>•</span> Play Drift Hunters MAX Unblocked 2025</a></li>
-                    <li><a href="https://gd-full2025.site" className="text-blue-400 hover:text-blue-300 flex items-center gap-2 transition-all hover:translate-x-1"><span>•</span> Play Geometry Dash Full Unblocked 2025</a></li>
-                    <li><a href="https://subway2025.online" className="text-blue-400 hover:text-blue-300 flex items-center gap-2 transition-all hover:translate-x-1"><span>•</span> Play Subway Surfers World Unblocked 2025</a></li>
+                <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    {[
+                      { name: "Snake Game 2025", url: "https://snakegame.cfd" },
+                      { name: "Zero Lag Games", url: "https://playzero2025.sbs" },
+                      { name: "Free Games Hub", url: "https://freegames2025.sbs" },
+                      { name: "No Download Zone", url: "https://nodownload2025.online" },
+                      { name: "Unblocked Main", url: "https://unblocked2025.cfd" },
+                      { name: "Retro Bowl Max", url: "https://retrobowl2025.online" },
+                      { name: "1v1.LOL Arena", url: "https://1v1lol2025.online" },
+                      { name: "Drift Hunters", url: "https://drift2025.site" },
+                      { name: "Slope Pro", url: "https://slope2025.online" }
+                    ].map((link, i) => (
+                      <li key={i}>
+                        <a href={link.url} className="group flex items-center gap-2 p-3 rounded-xl bg-slate-900/50 hover:bg-indigo-600/20 border border-white/5 transition-all text-sm font-medium text-slate-400 hover:text-white">
+                          <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 group-hover:scale-150 transition-transform"></span>
+                          {link.name}
+                        </a>
+                      </li>
+                    ))}
                 </ul>
             </div>
             
-            {/* Additional Ad Unit: Bottom Content */}
-            <div className="w-full flex justify-center mt-6">
-                <div className="w-full max-w-[728px] min-h-[90px]">
-                  <AdSenseUnit config={BOTTOM_LINKS_AD_CONFIG} className="min-h-[90px]" label="Bottom Links Ad" />
+            {/* Bottom Ad Unit */}
+            <div className="w-full flex flex-col items-center mt-6">
+                <div className="w-full max-w-[728px] min-h-[90px] rounded-xl overflow-hidden">
+                  <AdSenseUnit config={BOTTOM_LINKS_AD_CONFIG} className="min-h-[90px]" label="Recommended links" />
                 </div>
             </div>
 
           </div>
 
           {/* Sidebar Area */}
-          <div className="lg:col-span-4 flex flex-col gap-6 sticky top-20">
+          <aside className="lg:col-span-4 flex flex-col gap-8 sticky top-24">
             
-            {/* Sidebar Benefits Card */}
-            <div className="bg-gradient-to-br from-indigo-900/40 to-slate-900 p-5 rounded-xl border border-indigo-500/30 shadow-lg">
-                <div className="flex items-center gap-2 mb-3 text-indigo-400">
-                  <ShieldCheck className="w-5 h-5" />
-                  <h3 className="font-bold">Safe & Verified</h3>
+            {/* Sidebar Ad Unit - High CTR Placement */}
+            <div className="bg-slate-900/40 p-2 rounded-2xl border border-white/5 flex flex-col items-center shadow-2xl">
+                <div className="w-full max-w-[300px] min-h-[250px] overflow-hidden rounded-xl">
+                  <AdSenseUnit config={SIDEBAR_RECTANGLE_AD_CONFIG} className="min-h-[250px]" label="Premium Partner" />
                 </div>
-                <p className="text-xs text-slate-400 leading-relaxed">
-                  Every game on ArcadeZone is manually tested for safety. We ensure 100% compatibility with Chrome, Safari, and Edge.
-                </p>
-            </div>
-
-            {/* Sidebar Ad Unit */}
-            <div className="bg-slate-900 p-4 rounded-xl border border-slate-800 flex justify-center shadow-lg">
-                <div className="w-[300px] min-h-[250px]">
-                  <AdSenseUnit config={SIDEBAR_RECTANGLE_AD_CONFIG} className="min-h-[250px]" label="Sidebar Ad" />
-                </div>
+                <p className="text-[9px] text-slate-700 mt-2 uppercase tracking-[0.2em]">Advertisement</p>
             </div>
 
             {/* Game List */}
-            <div className="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden shadow-lg flex flex-col max-h-[calc(100vh-400px)]">
-              <div className="p-4 border-b border-slate-800 bg-slate-800/50 flex justify-between items-center sticky top-0 z-10 backdrop-blur-sm">
-                <h3 className="font-bold text-white">More Games</h3>
+            <div className="bg-slate-900/60 rounded-3xl border border-white/5 overflow-hidden shadow-2xl flex flex-col max-h-[calc(100vh-200px)]">
+              <div className="p-5 border-b border-white/5 bg-white/5 flex justify-between items-center backdrop-blur-md">
+                <h3 className="font-bold text-white flex items-center gap-2">
+                  <Gamepad2 className="w-4 h-4 text-indigo-400" />
+                  Trending Now
+                </h3>
               </div>
 
-              <div className="divide-y divide-slate-800 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
+              <div className="divide-y divide-white/5 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent">
                 {filteredGames.map((game) => (
                   <button
                     key={game.id}
@@ -223,58 +238,74 @@ const App: React.FC = () => {
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                       }
                     }}
-                    className={`w-full p-3 flex items-center gap-3 hover:bg-slate-800 transition-all text-left group ${
-                      activeGame.id === game.id ? 'bg-slate-800/80 border-l-4 border-blue-500' : 'border-l-4 border-transparent'
+                    className={`w-full p-4 flex items-center gap-4 hover:bg-white/5 transition-all text-left group ${
+                      activeGame.id === game.id ? 'bg-indigo-600/10' : ''
                     }`}
                   >
-                    <div className={`w-16 h-12 rounded-lg flex-shrink-0 flex items-center justify-center shadow-inner bg-gradient-to-br ${game.gradient} relative overflow-hidden group-hover:opacity-90 transition-opacity`}>
-                      <span className="text-white font-black text-xl drop-shadow-md select-none">
+                    <div className={`w-14 h-14 rounded-2xl flex-shrink-0 flex items-center justify-center shadow-lg bg-gradient-to-br ${game.gradient} relative overflow-hidden group-hover:scale-105 transition-transform`}>
+                      <span className="text-white font-black text-2xl drop-shadow-lg select-none">
                         {game.title.charAt(0)}
                       </span>
                       {game.isNew && (
-                        <span className="absolute -top-1 -right-1 flex h-2 w-2">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                        </span>
+                        <div className="absolute top-0 right-0 p-1">
+                          <span className="flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                          </span>
+                        </div>
                       )}
                     </div>
                     
                     <div className="flex-grow min-w-0">
-                      <h4 className={`font-medium text-sm truncate ${activeGame.id === game.id ? 'text-blue-400' : 'text-slate-200 group-hover:text-white'}`}>
+                      <h4 className={`font-bold text-sm truncate ${activeGame.id === game.id ? 'text-indigo-400' : 'text-slate-200 group-hover:text-white'}`}>
                         {game.title}
                       </h4>
-                      <div className="flex items-center gap-2 mt-0.5">
-                         <span className="text-[10px] uppercase tracking-wider px-1.5 py-0.5 bg-slate-950 text-slate-400 rounded border border-slate-800">
-                           {game.category}
-                         </span>
-                      </div>
+                      <p className="text-[10px] text-slate-500 font-medium uppercase tracking-wider mt-1">{game.category}</p>
                     </div>
                   </button>
                 ))}
               </div>
             </div>
 
-          </div>
+            {/* sidebar small benefit */}
+            <div className="bg-indigo-600/10 p-6 rounded-3xl border border-indigo-500/20">
+                <div className="flex items-center gap-2 mb-3 text-indigo-400">
+                  <ShieldCheck className="w-5 h-5" />
+                  <h3 className="font-bold text-sm">Safe & Encrypted</h3>
+                </div>
+                <p className="text-[11px] text-slate-400 leading-relaxed">
+                  ArcadeZone uses end-to-end encryption. Play securely without tracking or data collection. Trusted by millions of unblocked gamers globally.
+                </p>
+            </div>
+
+          </aside>
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="bg-slate-900 border-t border-slate-800 py-8 mt-auto">
-        <div className="container mx-auto px-4 text-center">
-            <div className="flex flex-col items-center gap-6">
-              <div className="flex flex-wrap justify-center gap-4 text-sm font-medium">
-                 <a href="/" className="text-slate-400 hover:text-purple-400 transition-colors">Home</a>
-                 <span className="text-slate-700">|</span>
-                 <a href="/privacy.html" className="text-slate-400 hover:text-purple-400 transition-colors">Privacy Policy</a>
-                 <span className="text-slate-700">|</span>
-                 <a href="/about.html" className="text-slate-400 hover:text-purple-400 transition-colors">About Us</a>
-                 <span className="text-slate-700">|</span>
-                 <a href="/contact.html" className="text-slate-400 hover:text-purple-400 transition-colors">Contact</a>
+      <footer className="bg-slate-900 border-t border-white/5 py-12 mt-20">
+        <div className="container mx-auto px-4">
+            <div className="flex flex-col items-center gap-8">
+              <div className="flex items-center gap-3">
+                <Gamepad2 className="w-5 h-5 text-indigo-500" />
+                <span className="font-black text-white italic tracking-tighter">ARCADE ZONE</span>
               </div>
-              <div className="max-w-2xl text-slate-500 text-xs leading-relaxed italic">
-                Disclaimer: All games on ArcadeZone are free to play and hosted for educational/entertainment purposes. We do not require account registration or software downloads. ArcadeZone respects all intellectual property rights and intellectual property owners.
+              
+              <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-sm font-semibold">
+                 <a href="/" className="text-slate-500 hover:text-indigo-400 transition-colors">Home</a>
+                 <a href="/privacy.html" className="text-slate-500 hover:text-indigo-400 transition-colors">Privacy</a>
+                 <a href="/about.html" className="text-slate-500 hover:text-indigo-400 transition-colors">About</a>
+                 <a href="/contact.html" className="text-slate-500 hover:text-indigo-400 transition-colors">Contact</a>
               </div>
-              <p className="text-slate-600 text-xs font-bold">&copy; {new Date().getFullYear()} Pro Max Games Network. Unblocked Games 2025 Expert.</p>
+
+              <div className="max-w-2xl text-slate-600 text-[11px] leading-relaxed text-center px-4">
+                Disclaimer: ArcadeZone provides free-to-play HTML5 games curated for the unblocked community. We do not host malicious content or require sensitive permissions. All trademarks belong to their respective owners. ProMax refers to our performance optimization standards.
+              </div>
+
+              <div className="flex flex-col items-center gap-2">
+                <p className="text-slate-500 text-[10px] font-bold tracking-widest uppercase">&copy; {new Date().getFullYear()} ARCADE ZONE NETWORK</p>
+                <div className="h-px w-10 bg-indigo-500/30"></div>
+              </div>
             </div>
         </div>
       </footer>
